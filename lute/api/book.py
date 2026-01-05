@@ -49,13 +49,13 @@ def create_book():
     try:
         book_service = BookService()
 
-        book.title = data.title
-        book.text = data.text
-        book.language_id = data.languageId
-        book.source_uri = data.source
-        book.book_tags = data.tags
-        book.threshold_page_tokens = data.wordsPerPage
-        book.split_by = data.splitBy
+        book.title = data["title"]
+        book.text = data["text"]
+        book.language_id = data["languageId"]
+        book.source_uri = data["source"]
+        book.book_tags = data["tags"]
+        book.threshold_page_tokens = int(data["wordsPerPage"])
+        book.split_by = data["splitBy"]
 
         audio_file = files_dict.get("audioFile", None)
         if audio_file:
