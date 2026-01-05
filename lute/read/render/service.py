@@ -61,7 +61,7 @@ class Service:
         # is negligible, so I'll use the first method which IMO is the clearest
         # code.
 
-        zws = "\u200B"  # zero-width space
+        zws = "\u200b"  # zero-width space
         content = zws + zws.join(text_lcs) + zws
 
         # Method 1:
@@ -206,6 +206,8 @@ class Service:
             ]
             for s in sentences:
                 s[0].add_html_class("sentencestart")
+                s[0].is_sentence_start = True
+                s[-1].is_sentence_end = True
             return sentences
 
         paras = [

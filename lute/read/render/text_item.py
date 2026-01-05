@@ -1,6 +1,6 @@
 "TextItem class."
 
-zws = "\u200B"  # zero-width space
+zws = "\u200b"  # zero-width space
 
 
 class TextItem:  # pylint: disable=too-many-instance-attributes
@@ -19,6 +19,8 @@ class TextItem:  # pylint: disable=too-many-instance-attributes
         self.text: str  # The original, un-overlapped text.
         self.text_lc: str
         self.is_word: int
+        self._is_sentence_start: bool = False
+        self._is_sentence_end: bool = False
 
         # Number of tokens originally in the Text item.
         self.token_count: int = 1
@@ -111,6 +113,26 @@ class TextItem:  # pylint: disable=too-many-instance-attributes
     def add_html_class(self, c):
         "Add extra class to term."
         self.extra_html_classes.append(c)
+
+    @property
+    def is_overlapped(self):
+        return self.display_text != self.text
+
+    @property
+    def is_sentence_start(self):
+        return self._is_sentence_start
+
+    @is_sentence_start.setter
+    def is_sentence_start(self, value):
+        self._is_sentence_start = value
+
+    @property
+    def is_sentence_end(self):
+        return self._is_sentence_end
+
+    @is_sentence_end.setter
+    def is_sentence_end(self, value):
+        self._is_sentence_end = value
 
     @property
     def html_class_string(self):

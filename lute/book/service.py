@@ -32,6 +32,7 @@ class BookImportException(Exception):
 @dataclass
 class BookDataFromUrl:
     "Data class"
+
     title: str = None
     source_uri: str = None
     text: str = None
@@ -177,7 +178,7 @@ class FileTextExtraction:
 class Service:
     "Service."
 
-    def _unique_fname(self, filename):
+    def unique_fname(self, filename):
         """
         Return secure name pre-pended with datetime string.
         """
@@ -192,7 +193,7 @@ class Service:
         """
         Save the file to disk, return its filename.
         """
-        filename = self._unique_fname(audio_file_field_data.filename)
+        filename = self.unique_fname(audio_file_field_data.filename)
         fp = os.path.join(current_app.env_config.useraudiopath, filename)
         audio_file_field_data.save(fp)
         return filename
@@ -262,14 +263,14 @@ class Service:
 
         if book.audio_source_path:
             _raise_if_file_missing(book.audio_source_path, "audio_source_path")
-            newname = self._unique_fname(book.audio_source_path)
+            newname = self.unique_fname(book.audio_source_path)
             fp = os.path.join(current_app.env_config.useraudiopath, newname)
             shutil.copy(book.audio_source_path, fp)
             book.audio_filename = newname
 
         if book.audio_stream:
             _raise_if_none(book.audio_stream_filename, "audio_stream_filename")
-            newname = self._unique_fname(book.audio_stream_filename)
+            newname = self.unique_fname(book.audio_stream_filename)
             fp = os.path.join(current_app.env_config.useraudiopath, newname)
             with open(fp, mode="wb") as fcopy:  # Use "wb" to write in binary mode
                 while chunk := book.audio_stream.read(
